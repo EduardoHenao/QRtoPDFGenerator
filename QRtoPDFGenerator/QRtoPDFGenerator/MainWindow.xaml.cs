@@ -79,26 +79,57 @@
 
         private void DigitsChanged(object sender, TextChangedEventArgs e)
         {
+            var digitsTextBox = sender as TextBox;
+            if (int.TryParse(digitsTextBox.Text, out int digits))
+            {
+                if (digits < 0)
+                {
+                    DIGITS = 3;
+                }
+                else DIGITS = digits;
+            }
             this.RecalculatePreview();
         }
 
         private void SeriesChanged(object sender, TextChangedEventArgs e)
         {
+            var serie = sender as TextBox;
+            SERIES = serie.Text;
             this.RecalculatePreview();
         }
 
         private void StartingPointChanged(object sender, TextChangedEventArgs e)
         {
+            var startingPointTextBox = sender as TextBox;
+            if (int.TryParse(startingPointTextBox.Text, out int startingPoint))
+            {
+                if (startingPoint < 0)
+                {
+                    STARTING_POINT = 0;
+                }
+                else STARTING_POINT = startingPoint;
+            }
             this.RecalculatePreview();
         }
 
         private void QuantityChanged(object sender, TextChangedEventArgs e)
         {
+            var quantityTextBox = sender as TextBox;
+            if (int.TryParse(quantityTextBox.Text, out int quantity))
+            {
+                if (quantity < 0)
+                {
+                    QUANTITY = 0;
+                }
+                else QUANTITY = quantity;
+            }
             this.RecalculatePreview();
         }
 
         private void SeparatorChanged(object sender, TextChangedEventArgs e)
         {
+            var separatorTextBox = sender as TextBox;
+            SEPARATOR = separatorTextBox.Text;
             this.RecalculatePreview();
         }
     }
