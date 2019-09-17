@@ -35,6 +35,14 @@
 
         //QR lib params
         private int PIXELS_PER_MODULE = 6;
+        private static int QR_TAGS_QUANTITY = 5;
+
+        //PDF
+        private static int LINES_PER_PAGE = 6;
+        private static int PIXELS_BETWEEN_QR = 100;
+        private static int OFFSETY_PIXELS_STRING = 20;
+        private static int OFFSETY_PIXELS_QR = 100;
+        private static int RECT_PIXELS_HEIGHT = 20;
 
         public MainWindow()
         {
@@ -95,32 +103,28 @@
 
             // Draw the text
             var lines = 0;
-            var linesPerPage = 6;
             var offsetY = 0;
             foreach (var qRContainer in qRContainers)
             {
-                if (lines >= linesPerPage)
+                if (lines >= LINES_PER_PAGE)
                 {
                     lines = 0;
                     offsetY = 0;
                     page = document.AddPage();
                     gfx = XGraphics.FromPdfPage(page);
                 }
-                //variable
-                var pixelsBetweenQr = 100;
 
                 //draw code
-                gfx.DrawString(qRContainer.code, font, XBrushes.Black, new XRect(0, offsetY, page.Width, 20), XStringFormats.Center);
-                offsetY += 20;
+                gfx.DrawString(qRContainer.code, font, XBrushes.Black, new XRect(0, offsetY, page.Width, RECT_PIXELS_HEIGHT), XStringFormats.Center);
+                offsetY += OFFSETY_PIXELS_STRING;
 
                 //draw qr bitmap
-                gfx.DrawImage(qRContainer.bitmap, new XPoint(0, offsetY));
-                gfx.DrawImage(qRContainer.bitmap, new XPoint(pixelsBetweenQr, offsetY));
-                gfx.DrawImage(qRContainer.bitmap, new XPoint(2 * pixelsBetweenQr, offsetY));
-                gfx.DrawImage(qRContainer.bitmap, new XPoint(3 * pixelsBetweenQr, offsetY));
-                gfx.DrawImage(qRContainer.bitmap, new XPoint(4 * pixelsBetweenQr, offsetY));
+                for (int i = 0; i < QR_TAGS_QUANTITY; i++)
+                {
+                    gfx.DrawImage(qRContainer.bitmap, new XPoint(i*PIXELS_BETWEEN_QR, offsetY));
+                }
 
-                offsetY += 100;
+                offsetY += OFFSETY_PIXELS_QR;
 
                 //draw line
                 gfx.DrawLine(XPens.DarkGray, 0, offsetY, page.Width, offsetY);
