@@ -24,5 +24,35 @@ namespace QRtoPDFGenerator
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DigitsChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void SeriesChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void StartingPointChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void QuantityChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void SeparatorChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

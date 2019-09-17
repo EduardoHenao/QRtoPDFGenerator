@@ -13,7 +13,7 @@ The PDF should present the list of codes, and for each code some copies of the g
 (OPTIONAL) specify the quantity of QR tags
 (OPTIONAL) if the quantity value is lesser than 1, then the preview only shows 1 value
 
-## Examples"
+## Examples
 
  - Default: 
         root="AAA", separator="-", start=0, quantity=1, digits=3
@@ -24,3 +24,7 @@ The PDF should present the list of codes, and for each code some copies of the g
 - 10 values:
         root="MAG", separator="*", start=45, quantity=55, digits=4
         result  FROM='MAG*0045' TO='MAG*0100'
+
+## NOTES:
+Feel free to use any NUGET library for the pdf and qr code generation.
+(OPTIONAL) We strongly suggest that you use PDFSharp and QRCoder

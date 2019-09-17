@@ -7,6 +7,24 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <Button x:Name="GeneratePdfButton" Content="Generar PDF" HorizontalAlignment="Left" Margin="564,251,0,0" VerticalAlignment="Top" Width="151" Height="44" Click="Button_Click"/>
+        <TextBox x:Name="SerieTextBox" HorizontalAlignment="Left" Height="23" Margin="45,97,0,0" TextWrapping="Wrap" Text="AAA" VerticalAlignment="Top" Width="120" TextChanged="SeriesChanged"/>
+        <TextBlock x:Name="CodigoTitle" HorizontalAlignment="Left" Margin="45,19,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="34" Width="120" FontSize="22"><Run Text="Codigo"/><LineBreak/><Run/></TextBlock>
+        <TextBlock x:Name="EnumeracionTitle" HorizontalAlignment="Left" Margin="273,19,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="34" FontSize="22"><Run Text="Enumeracion"/><LineBreak/><Run/></TextBlock>
+        <TextBox x:Name="DigitsTextBox" HorizontalAlignment="Left" Height="23" Margin="273,97,0,0" TextWrapping="Wrap" Text="3" VerticalAlignment="Top" Width="120" TextChanged="DigitsChanged"/>
+        <TextBlock x:Name="SerieTitle" HorizontalAlignment="Left" Margin="45,77,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="20"><Run Text="serie"/><LineBreak/><Run/></TextBlock>
+        <TextBlock x:Name="DigitsTitle" HorizontalAlignment="Left" Margin="273,77,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Width="120"><Run Text="cantidad digitos"/><LineBreak/><Run/></TextBlock>
+        <TextBox x:Name="StartingNumberTextBox" HorizontalAlignment="Left" Height="23" Margin="273,162,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120" TextChanged="StartingPointChanged"/>
+        <TextBlock x:Name="StartingNumberTitle" HorizontalAlignment="Left" Margin="273,142,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Width="120"><Run Text="numero de partida"/><LineBreak/><Run/></TextBlock>
+        <TextBox x:Name="QuantityTextBox" HorizontalAlignment="Left" Height="23" Margin="273,228,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="120" TextChanged="QuantityChanged"/>
+        <TextBlock x:Name="QuantityTitle" HorizontalAlignment="Left" Margin="273,209,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Width="120"><Run Text="cantidad de codigos"/><LineBreak/><Run/></TextBlock>
+        <GridSplitter HorizontalAlignment="Left" Height="344" Margin="465,19,0,0" VerticalAlignment="Top" Width="7" Background="Black"/>
+        <TextBlock x:Name="ResultadoTitle" HorizontalAlignment="Left" Margin="586,19,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="34" FontSize="22"><Run Text="Resultado"/><LineBreak/><Run/></TextBlock>
+        <TextBlock x:Name="ResultadoDesdeText" HorizontalAlignment="Left" Margin="522,97,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Width="230" Text="AAA-001" TextAlignment="Center"/>
+        <TextBlock x:Name="ResultadoHastaText" HorizontalAlignment="Left" Margin="522,165,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Width="230" Text="AAA-001" TextAlignment="Center" Visibility="Hidden"/>
+        <TextBlock x:Name="ResultadoDesdeTitle" HorizontalAlignment="Left" Margin="576,72,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Width="120" TextAlignment="Center" ><Run Text="desde"/><LineBreak/><Run/></TextBlock>
+        <TextBlock x:Name="ResultadoHastaTitle" HorizontalAlignment="Left" Margin="576,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Width="120" TextAlignment="Center" Text="hasta" Visibility="Hidden"/>
+        <TextBox x:Name="SeparatorTitle" HorizontalAlignment="Left" Height="23" Margin="273,294,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top" Width="120" TextChanged="SeparatorChanged"/>
+        <TextBlock x:Name="SeparatorTextBox" HorizontalAlignment="Left" Margin="273,275,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Width="120" Text="separador"/>
     </Grid>
 </Window>
