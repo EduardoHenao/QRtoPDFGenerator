@@ -12,7 +12,9 @@
         private static string SERIES = "AAA";
         private static int QUANTITY = 1;
         private static int STARTING_POINT = 0;
+        private static int STARTING_POINT_DEFAULT_VALUE = 0;
         private static int DIGITS = 3;
+        private static int DIGITS_DEFAULT_VALUE = 3;
         private static string SEPARATOR = "-";
 
 
@@ -64,16 +66,11 @@
                 this.ResultadoDesdeText.Text = this.resultStart;
                 this.ResultadoHastaText.Text = this.resultEnd;
 
-                if (this.endVisible)
-                {
-                    this.ResultadoHastaText.Visibility = Visibility.Visible;
-                    this.ResultadoHastaTitle.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    this.ResultadoHastaText.Visibility = Visibility.Hidden;
-                    this.ResultadoHastaTitle.Visibility = Visibility.Hidden;
-                }
+                Visibility visibility = Visibility.Hidden;
+                if (this.endVisible) visibility = Visibility.Visible;
+
+                this.ResultadoHastaText.Visibility = visibility;
+                this.ResultadoHastaTitle.Visibility = visibility;
             }
         }
 
@@ -84,7 +81,7 @@
             {
                 if (digits < 0)
                 {
-                    DIGITS = 3;
+                    DIGITS = DIGITS_DEFAULT_VALUE;
                 }
                 else DIGITS = digits;
             }
@@ -105,7 +102,7 @@
             {
                 if (startingPoint < 0)
                 {
-                    STARTING_POINT = 0;
+                    STARTING_POINT = STARTING_POINT_DEFAULT_VALUE;
                 }
                 else STARTING_POINT = startingPoint;
             }
