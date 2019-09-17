@@ -1,5 +1,10 @@
 ﻿namespace QRtoPDFGenerator
 {
+    using PdfSharp.Drawing;
+    using QRCoder;
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.IO;
     using System.Windows;
     using System.Windows.Controls;
 
@@ -25,6 +30,9 @@
         // wpf variables
         private bool endVisible = false;
 
+        //QR lib params
+        private int PIXELS_PER_MODULE = 10;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -41,7 +49,30 @@
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            //TODO: after having all the events coded
+            //TODO move this logic to a worker thread
+            var qRContainerList = this.generateQR();
+        }
+
+        private List<QRContainer> generateQR()
+        {
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            List<QRContainer> qRContainers = new List<QRContainer>();
+
+            //qr generation loop
+            for (int i = STARTING_POINT; i < STARTING_POINT + QUANTITY; i++)
+            {
+                string code = this.GenerateCode(i); // reuse the preview function
+                QRCodeData qrCodeData = qrGenerator.CreateQrCode(code, QRCodeGenerator.ECCLevel.Q);
+                QRCode qrCode = new QRCode(qrCodeData);
+                Bitmap qrCodeImage = qrCode.GetGraphic(PIXELS_PER_MODULE);
+                qRContainers.Add(new QRContainer
+                {
+                    code = code,
+                    bitmap = qrCodeImage
+                });
+            }
+
+            return qRContainers;
         }
 
         private void RecalculatePreview()
