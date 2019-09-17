@@ -1,0 +1,26 @@
+
+# QR to PDF Generator
+> A tool to generate a code list and their respective QR tags
+
+Create a WPF tool that allows to create a code with a default root value of "AAA".
+The tool must allow to handle a separator string with a default value of "".
+The tool should specify the quantity of digits for the numeric part with a default value of 3.
+The tool should specify the start value of the number with a default value of 0.
+The tool should specify the quantity of codes generating, in increases of 1 unit, from the start value, with a default value of 1.
+The tool should have a button to open a save dialog and generate the pdf file.
+(OPTIONAL) The window should preview the sequence start and end code, and refresh its values in real time.
+The PDF should present the list of codes, and for each code some copies of the generated QR tag, ideally more than 3.
+(OPTIONAL) specify the quantity of QR tags
+(OPTIONAL) if the quantity value is lesser than 1, then the preview only shows 1 value
+
+## Examples"
+
+ - Default: 
+        root="AAA", separator="-", start=0, quantity=1, digits=3
+        result  FROM='AAA-000'
+ - 10 values:
+        root="BBB", separator="---", start=1, quantity=10, digits=2
+        result  FROM='BBB---01' TO='BBB---10'
+- 10 values:
+        root="MAG", separator="*", start=45, quantity=55, digits=4
+        result  FROM='MAG*0045' TO='MAG*0100'
