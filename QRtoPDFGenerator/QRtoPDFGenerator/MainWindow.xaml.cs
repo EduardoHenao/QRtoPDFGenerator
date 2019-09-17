@@ -1,8 +1,11 @@
 ﻿namespace QRtoPDFGenerator
 {
+    using Microsoft.Win32;
     using PdfSharp.Drawing;
+    using PdfSharp.Pdf;
     using QRCoder;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Drawing;
     using System.IO;
     using System.Windows;
@@ -31,7 +34,7 @@
         private bool endVisible = false;
 
         //QR lib params
-        private int PIXELS_PER_MODULE = 10;
+        private int PIXELS_PER_MODULE = 6;
 
         public MainWindow()
         {
@@ -51,6 +54,8 @@
         {
             //TODO move this logic to a worker thread
             var qRContainerList = this.generateQR();
+            var document = this.generatePDF(qRContainerList);
+            this.saveDocument(document);
         }
 
         private List<QRContainer> generateQR()
@@ -65,14 +70,88 @@
                 QRCodeData qrCodeData = qrGenerator.CreateQrCode(code, QRCodeGenerator.ECCLevel.Q);
                 QRCode qrCode = new QRCode(qrCodeData);
                 Bitmap qrCodeImage = qrCode.GetGraphic(PIXELS_PER_MODULE);
+                MemoryStream strm = new MemoryStream();
+                qrCodeImage.Save(strm, System.Drawing.Imaging.ImageFormat.Png);
                 qRContainers.Add(new QRContainer
                 {
                     code = code,
-                    bitmap = qrCodeImage
-                });
+                    bitmap = XImage.FromStream(strm)
+            });
             }
 
             return qRContainers;
+        }
+
+        private PdfDocument generatePDF(List<QRContainer> qRContainers)
+        {
+            // Create a new PDF document
+            PdfDocument document = new PdfDocument();
+            document.Info.Title = $"Series {this.GenerateCode(0)} to {this.GenerateCode(QUANTITY - 1)}";
+
+            // Create an empty page
+            PdfPage page = document.AddPage();
+            XGraphics gfx = XGraphics.FromPdfPage(page);
+            XFont font = new XFont("SansSerif", 10, XFontStyle.BoldItalic);
+
+            // Draw the text
+            var lines = 0;
+            var linesPerPage = 6;
+            var offsetY = 0;
+            foreach (var qRContainer in qRContainers)
+            {
+                if (lines >= linesPerPage)
+                {
+                    lines = 0;
+                    offsetY = 0;
+                    page = document.AddPage();
+                    gfx = XGraphics.FromPdfPage(page);
+                }
+                //variable
+                var pixelsBetweenQr = 100;
+
+                //draw code
+                gfx.DrawString(qRContainer.code, font, XBrushes.Black, new XRect(0, offsetY, page.Width, 20), XStringFormats.Center);
+                offsetY += 20;
+
+                //draw qr bitmap
+                gfx.DrawImage(qRContainer.bitmap, new XPoint(0, offsetY));
+                gfx.DrawImage(qRContainer.bitmap, new XPoint(pixelsBetweenQr, offsetY));
+                gfx.DrawImage(qRContainer.bitmap, new XPoint(2 * pixelsBetweenQr, offsetY));
+                gfx.DrawImage(qRContainer.bitmap, new XPoint(3 * pixelsBetweenQr, offsetY));
+                gfx.DrawImage(qRContainer.bitmap, new XPoint(4 * pixelsBetweenQr, offsetY));
+
+                offsetY += 100;
+
+                //draw line
+                gfx.DrawLine(XPens.DarkGray, 0, offsetY, page.Width, offsetY);
+
+                lines++;
+            }
+
+            return document;
+        }
+
+        public void saveDocument(PdfDocument document)
+        {
+            // Save the document...
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+
+            saveFileDialog1.Filter = "pdf files (*.pdf)|*.pdf|All files (*.*)|*.*";
+            saveFileDialog1.FilterIndex = 1;
+            saveFileDialog1.RestoreDirectory = true;
+
+            if (saveFileDialog1.ShowDialog().Value == true)
+            {
+                try
+                {
+                    document.Save(saveFileDialog1.FileName);
+                    Process.Start(saveFileDialog1.FileName);
+                }
+                catch (System.IO.IOException)
+                {
+                    //do nothing, the file is already opened, so we catch this
+                }
+            }
         }
 
         private void RecalculatePreview()
