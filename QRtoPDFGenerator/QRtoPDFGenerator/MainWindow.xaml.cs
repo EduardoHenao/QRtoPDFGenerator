@@ -4,12 +4,15 @@
     using PdfSharp.Drawing;
     using PdfSharp.Pdf;
     using QRCoder;
+    using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Diagnostics;
     using System.Drawing;
     using System.IO;
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Threading;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -60,10 +63,23 @@
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            //TODO move this logic to a worker thread
+            this.GeneratePdfButton.IsEnabled = false;
+
+            // this click will call the generation functions from a worker thread
+            BackgroundWorker worker = new BackgroundWorker();
+            worker.DoWork += worker_DoWork;
+            worker.RunWorkerAsync();
+        }
+
+
+        void worker_DoWork(object sender, DoWorkEventArgs e)
+        {
             var qRContainerList = this.generateQR();
             var document = this.generatePDF(qRContainerList);
             this.saveDocument(document);
+
+            //fire changes for ui components
+            this.GeneratePdfButton.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() => { GeneratePdfButton.IsEnabled = true; }));
         }
 
         private List<QRContainer> generateQR()
